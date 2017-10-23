@@ -2,6 +2,11 @@
 <html>
   <head>
     <title>Harry Potter</title>
+
+    <script type="text/javascript" src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script type="text/javascript", src="columnChart.js"></script>
+
     <script src='index.js'></script>
     <link rel='stylesheet' type='text/css' href='main.css'>
   </head>
@@ -11,8 +16,9 @@
     <select id="character-select"></select>
       <option disabled>Please select a character...</option>
 
+    <div id="character-info"></div>
 
-      <h5 id="character-info"></h3>
+    <div id="column-chart" width="400" height="400"></div>
 
   </body>
 </html>

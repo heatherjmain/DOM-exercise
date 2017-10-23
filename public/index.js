@@ -23,7 +23,6 @@ var initialize = function(){
   //   }
   //   listCharcters(characters);
   //   displayCharacterInfo(characterToDisplay);
-  //
   // }
 
   var listCharcters = function(characters, index) {
@@ -49,7 +48,10 @@ var initialize = function(){
   }
 
   var displayCharacterInfo = function(character) {
-    var characterInfo = document.querySelector("#character-info")
+    var characterInfo = document.querySelector("#character-info");
+    while(characterInfo.firstChild){characterInfo.removeChild(characterInfo.firstChild)};
+    var heading = document.createElement("h3");
+    heading.innerText = "Character Info"
     var pTagName = document.createElement("p");
     var pTagSpecies = document.createElement("p");
     var pTagDOB = document.createElement("p");
@@ -60,8 +62,10 @@ var initialize = function(){
     pTagSpecies.innerText = "Species: " + character.species;
     pTagDOB.innerText = "Date of Birth: " + character.dateOfBirth;
     pTagHouse.innerText = "Hogwarts House: " + character.house;
-    img.innerHTML = character.image;
+    img.src = character.image;
 
+
+    characterInfo.appendChild(heading);
     characterInfo.appendChild(pTagName);
     characterInfo.appendChild(pTagSpecies);
     characterInfo.appendChild(pTagDOB);
@@ -75,11 +79,47 @@ var initialize = function(){
   request.addEventListener("load", function() {
     var characters = JSON.parse(this.responseText);
     listCharcters(characters);
+    loadHouseData(characters);
     // renderCharacters(characters);
   });
   request.send();
 
-}
 
+
+
+
+  var loadHouseData = function(characters) {
+    console.log('hi')
+
+    houseLabels = [];
+    console.log(houseLabels);
+
+    var studentInHousesData = {
+      name: "Number of Students",
+      data: []
+    };
+
+
+    for (character of characters) {
+      if (!houseLabels.includes(character.house)) {
+        houseLabels.push(character.house);
+      }
+    }
+
+    for (label of houseLabels) {
+      var num = 0;
+      for (character of characters) {
+        if (character.house == label) {
+          num ++;
+        }
+      }
+      studentInHousesData.data.push(num);
+    }
+    console.log(studentInHousesData);
+    var chart = new ColumnChart("Number of Students in Each Hogwarts House", studentInHousesData, houseLabels);
+  }
+
+
+}
 
 window.addEventListener("load", initialize);
